@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Zeyo frontend Framework",
   "main": "lib/index.js",
+  "types": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bild": "npx tsc"
+    "build": "npx tsc"
   },
   "repository": {
     "type": "git",
@@ -13,7 +14,6 @@
   },
   "author": "zeyo (https://zeyo.org)",
   "license": "MIT",
-  "types": "./index.d.ts",
   "bugs": {
     "url": "https://github.com/zeyodev/zeyo/issues"
   },
