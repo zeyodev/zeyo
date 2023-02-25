@@ -30,3 +30,5 @@ export interface Atributes {
     "src": string
     "style": string
 }
+
+export interface Component { main: Zeyo, create: (obj?: any) => Promise<Zeyo> }
