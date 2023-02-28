@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/zeyodev/zeyo/issues"
   },
-  "homepage": "https://github.com/zeyodev/zeyo#readme"
+  "homepage": "https://github.com/zeyodev/zeyo#readme",
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
 }
