@@ -3,7 +3,7 @@ export interface Root<T extends keyof HTMLElementTagNameMap> {
 }
 
 export interface AddClass { class(...tokens: string[]): Zeyo }
-export interface Children { children<T extends keyof HTMLElementTagNameMap>(...child: Array<Zeyo<T> | string>): Zeyo }
+export interface Children { children(...child: Array<Zeyo<keyof HTMLElementTagNameMap> | string>): Zeyo }
 export interface Object { object(cb: (e: Zeyo) => void): Zeyo }
 
 export interface Atribute {
