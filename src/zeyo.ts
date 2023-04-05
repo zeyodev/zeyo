@@ -13,4 +13,9 @@ export default class Zeyo<T extends keyof HTMLElementTagNameMap> extends Text(On
     constructor(tagName: T) {
         super(tagName)
     }
+
+    set<R extends HTMLElementTagNameMap[T], A extends keyof R>(property: A, value: R[A]): this {
+        (this.element as any)[property] = value
+        return this
+    }
 }

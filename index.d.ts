@@ -16,7 +16,9 @@ export interface Click { click(cb: (e: MouseEvent) => void): Zeyo }
 export interface On { on<K extends keyof HTMLElementEventMap>(event: K, cb: (this: HTMLAnchorElement, ev: HTMLElementEventMap[K]) => void): Zeyo }
 export interface HTML { HTML(t: string): Zeyo }
 
-export interface Zeyo extends Root, AddClass, Children, Object, Atribute, Text, Click, On, HTML {}
+export interface Zeyo<T extends keyof HTMLElementTagNameMap> extends Root, AddClass, Children, Object, Atribute, Text, Click, On, HTML {
+    set<R extends HTMLElementTagNameMap[T], A extends keyof R>(property: A, value: R[A]): this
+}
 
 export type ZeyoConstructor<R = Root<T>> = new (...args: any[]) => R;
 
