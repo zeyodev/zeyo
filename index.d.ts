@@ -1,5 +1,5 @@
-export interface Root {
-    element: HTMLElementTagNameMap[keyof HTMLElementTagNameMap]
+export interface Root<T extends keyof HTMLElementTagNameMap> {
+    element: HTMLElementTagNameMap[T]
 }
 
 export interface AddClass { class(...tokens: string[]): Zeyo }
@@ -16,11 +16,9 @@ export interface Click { click(cb: (e: MouseEvent) => void): Zeyo }
 export interface On { on<K extends keyof HTMLElementEventMap>(event: K, cb: (this: HTMLAnchorElement, ev: HTMLElementEventMap[K]) => void): Zeyo }
 export interface HTML { HTML(t: string): Zeyo }
 
-export interface Zeyo extends Root, AddClass, Children, Object, Atribute, Text, Click, On, HTML {
-    element: HTMLElementTagNameMap[keyof HTMLElementTagNameMap]
-}
+export interface Zeyo extends Root, AddClass, Children, Object, Atribute, Text, Click, On, HTML {}
 
-export type ZeyoConstructor<T = Root> = new (...args: any[]) => T;
+export type ZeyoConstructor<R = Root<T>> = new (...args: any[]) => R;
 
 export type ZeyoStyle = { [key in keyof CSSStyleDeclaration]?: string }
 export interface Atributes {

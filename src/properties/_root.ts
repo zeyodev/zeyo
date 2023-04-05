@@ -1,6 +1,6 @@
-export default class Root {
-    element: HTMLElementTagNameMap[keyof HTMLElementTagNameMap]
-    constructor(tagName: keyof HTMLElementTagNameMap){
+export default class Root <T extends keyof HTMLElementTagNameMap> {
+    element: HTMLElementTagNameMap[T]
+    constructor(tagName: T){
         this.element = document.createElement(tagName)
     }
 }
