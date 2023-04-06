@@ -1,0 +1,3 @@
+Nas funcoes do Mixin eu poderia usar <T extends keyof HTMLElementTagNameMap, Base extends ZeyoConstructor<T>> 
+    e no ZeyoConstructor usar <T extends keyof HTMLElementTagNameMap, R = Root<T>>. Porem isso acaba matando a 
+    memoria gerando inumeras relacoes so para a funcao ler element como elemento. Por isso, usei a gambiarra (this.element as any)

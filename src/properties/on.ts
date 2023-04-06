@@ -3,7 +3,7 @@ interface EventMap {
     "click": ""
     "mouseup": ""
 }
-export default function On<T extends keyof HTMLElementTagNameMap, Base extends ZeyoConstructor<T>>(base: Base) {
+export default function On<T, Base extends ZeyoConstructor<T>>(base: Base) {
     return class extends base {
         on<K extends keyof HTMLElementEventMap>(event: K, cb: (this: HTMLAnchorElement, ev: HTMLElementEventMap[K]) => void) {
             if (Object.prototype.hasOwnProperty.call(this.element, `on${event}`))
