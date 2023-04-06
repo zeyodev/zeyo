@@ -1,7 +1,7 @@
 import { ZeyoConstructor } from "../../index";
 import Zeyo from "../zeyo";
 
-export default function Children<Base extends ZeyoConstructor>(base: Base) {
+export default function Children<T extends keyof HTMLElementTagNameMap, Base extends ZeyoConstructor<T>>(base: Base) {
     return class extends base {
         children(...child: Array<Zeyo<keyof HTMLElementTagNameMap> | string>){
             child.forEach(c => {

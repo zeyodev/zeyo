@@ -8,8 +8,7 @@ import On from "./properties/on"
 import Text from "./properties/text"
 import Root from "./properties/_root"
 
-export default class Zeyo<T extends keyof HTMLElementTagNameMap> extends Text(On(Object(HTML(Click(Children(Atribute(AddClass(Root<keyof HTMLElementTagNameMap>)))))))) {//quando adicionar um metodo aqui, tem que adicionar no lib.ts tbm
-    element: HTMLElementTagNameMap[T] = super.element
+export default class Zeyo<T extends keyof HTMLElementTagNameMap> extends Text(On(Object(HTML(Click(Children(Atribute(AddClass(Root))))))))<T> {
     constructor(tagName: T) {
         super(tagName)
     }

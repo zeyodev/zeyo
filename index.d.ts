@@ -20,7 +20,7 @@ export interface Zeyo<T extends keyof HTMLElementTagNameMap> extends Root, AddCl
     set<R extends HTMLElementTagNameMap[T], A extends keyof R>(property: A, value: R[A]): this
 }
 
-export type ZeyoConstructor<R = Root<T>> = new (...args: any[]) => R;
+export type ZeyoConstructor<T extends keyof HTMLElementTagNameMap, R = Root<T>> = new (...args: any[]) => R;
 
 export type ZeyoStyle = { [key in keyof CSSStyleDeclaration]?: string }
 export interface Atributes {
