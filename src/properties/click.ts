@@ -6,5 +6,10 @@ export default function Click<T, Base extends ZeyoConstructor<T>>(base: Base) {
             (this.element as any).onclick = cb
             return this
         }
+
+        clickthis<T extends keyof HTMLElementTagNameMap>(cb: (e: HTMLElementTagNameMap[T]) => void) {
+            (this.element as any).onclick = () => cb((this.element as any))
+            return this
+        }
     }
 }
