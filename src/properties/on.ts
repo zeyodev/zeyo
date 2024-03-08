@@ -5,10 +5,8 @@ interface EventMap {
 }
 export default function On<T, Base extends ZeyoConstructor<T>>(base: Base) {
     return class extends base {
-        on<K extends keyof HTMLElementEventMap>(event: K, cb: (this: HTMLAnchorElement, ev: HTMLElementEventMap[K]) => void) {
-            if (Object.prototype.hasOwnProperty.call(this.element, `on${event}`))
-                (this.element as any)[`on${event}`] = cb
-            else console.error(`Event: on${event} doesn't exist in ${this.element}`)
+        on<K extends keyof HTMLElementEventMap>(event: K, cb: (o: this, ev: HTMLElementEventMap[K]) => void) {
+            (this.element as any)[`on${event}`] = (event: HTMLElementEventMap[K]) => cb(this, event)
             return this
         }
     }
