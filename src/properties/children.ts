@@ -3,14 +3,19 @@ import Zeyo from "../zeyo";
 
 export default function Children<T, Base extends ZeyoConstructor<T>>(base: Base) {
     return class extends base {
-        childList: Array<Zeyo<keyof HTMLElementTagNameMap> | string> = []
+        childList: Zeyo<keyof HTMLElementTagNameMap>[] = []
+        removeChild(index: number){
+            (this.childList[index] as any).element.remove()
+            this.childList.splice(index, 1)
+        }
         children(...child: Array<Zeyo<keyof HTMLElementTagNameMap> | string>){
-            this.childList.push(...child)
             child.forEach(c => {
                 if (typeof c === "string")
                     (this.element as any).innerHTML += c
-                else
+                else{
+                    this.childList.push(c);
                     (this.element as any).appendChild(c.element)
+                }
             });
             return this
         }
