@@ -6,5 +6,13 @@ export default function Object<T, Base extends ZeyoConstructor<T>>(base: Base) {
             cb(this)
             return this
         }
+        
+        thread(cb: (z: this) => void) {
+            const timeout = setTimeout(() => {
+                cb(this)
+                clearTimeout(timeout)
+            }, 0);
+            return this
+        }
     }
 }
