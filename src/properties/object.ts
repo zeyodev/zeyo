@@ -1,5 +1,9 @@
 import { ZeyoConstructor } from "../../index"
 
+export interface IObject {
+    object(cb: (z: this) => void): this
+    thread(cb: (z: this) => void): this
+}
 export default function Object<T, Base extends ZeyoConstructor<T>>(base: Base) {
     return class extends base {
         object(cb: (z: this) => void){

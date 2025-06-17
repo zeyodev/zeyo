@@ -1,20 +1,20 @@
-import AddClass from "./properties/addClass"
-import Attribute from "./properties/attribute"
-import Children from "./properties/children"
-import Click from "./properties/click"
-import HTML from "./properties/html"
-import Object from "./properties/object"
-import On from "./properties/on"
-import Text from "./properties/text"
+import AddClass, { IAddClass } from "./properties/addClass"
+import Attribute, { IAttribute } from "./properties/attribute"
+import Children, { IChildren } from "./properties/children"
+import Click, { IClick } from "./properties/click"
+import HTML, { IHTML } from "./properties/html"
+import Object, { IObject } from "./properties/object"
+import On, { IOn } from "./properties/on"
+import Text, { IText } from "./properties/text"
 import Root from "./properties/_root"
 
-export default class Zeyo<T extends keyof HTMLElementTagNameMap> extends Text(On(Object(HTML(Click(Children(Attribute(AddClass(Root))))))))<T> {
-    constructor(tagName: T) {
-        super(tagName)
-    }
+interface IZeyo<T extends keyof HTMLElementTagNameMap> extends IAddClass, IAttribute, IChildren, IClick, IHTML, IObject, IOn, IText {
+    element: HTMLElementTagNameMap[T]
+    set<R extends HTMLElementTagNameMap[T], A extends keyof R>(property: A, value: R[A]): this
+}
 
-    set<R extends HTMLElementTagNameMap[T], A extends keyof R>(property: A, value: R[A]): this {
-        (this.element as any)[property] = value
-        return this
+export default <T extends keyof HTMLElementTagNameMap>(tagName: T): IZeyo<T> => new class Zeyo extends Text(On(Object(HTML(Click(Children(Attribute(AddClass(Root<T>)))))))) {
+    constructor() {
+        super(tagName)
     }
 }

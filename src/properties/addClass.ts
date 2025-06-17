@@ -1,5 +1,9 @@
 import { ZeyoConstructor } from "../../index"
 
+export interface IAddClass {
+    class(...tokens: string[]): this
+}
+
 export default function AddClass<T, Base extends ZeyoConstructor<T>>(base: Base) {
     return class extends base {
         class(...tokens: string[]) {

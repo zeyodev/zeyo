@@ -3,6 +3,9 @@ interface EventMap {
     "click": ""
     "mouseup": ""
 }
+export interface IOn {
+    on<K extends keyof HTMLElementEventMap>(event: K, cb: (o: this, ev: HTMLElementEventMap[K]) => void): this
+}
 export default function On<T, Base extends ZeyoConstructor<T>>(base: Base) {
     return class extends base {
         on<K extends keyof HTMLElementEventMap>(event: K, cb: (o: this, ev: HTMLElementEventMap[K]) => void) {
