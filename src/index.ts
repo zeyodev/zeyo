@@ -1,6 +1,5 @@
 import Zeyo, { IZeyo } from "./zeyo";
 type ZeyoType = ReturnType<typeof Zeyo<keyof HTMLElementTagNameMap>>
-type ZeyoT<T extends keyof HTMLElementTagNameMap> = ReturnType<typeof Zeyo<T>>
 export { ZeyoType as Zeyo, IZeyo as ZeyoAs }
 
 export default function Z<T extends keyof HTMLElementTagNameMap>(tagName: T): IZeyo<T> {
