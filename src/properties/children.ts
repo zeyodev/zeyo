@@ -1,21 +1,21 @@
 import { ZeyoConstructor } from "../../index";
-import Zeyo from "../zeyo";
+import Zeyo, { IZeyo } from "../zeyo";
 
 export interface IChildren {
-    childList: ReturnType<typeof Zeyo<keyof HTMLElementTagNameMap>>[]
+    childList: IZeyo<keyof HTMLElementTagNameMap>[]
     removeChild(index: number): this
-    children(...child: Array<ReturnType<typeof Zeyo<keyof HTMLElementTagNameMap>> | string>): this
+    children(...child: Array<IZeyo<keyof HTMLElementTagNameMap> | string>): this
 }
 
 export default function Children<T, Base extends ZeyoConstructor<T>>(base: Base) {
     return class extends base {
-        childList: ReturnType<typeof Zeyo<keyof HTMLElementTagNameMap>>[] = []
+        childList: IZeyo<keyof HTMLElementTagNameMap>[] = []
         removeChild(index: number){
             (this.childList[index] as any).element.remove()
             this.childList.splice(index, 1)
             return this
         }
-        children(...child: Array<ReturnType<typeof Zeyo<keyof HTMLElementTagNameMap>> | string>){
+        children(...child: Array<IZeyo<keyof HTMLElementTagNameMap> | string>){
             child.forEach(c => {
                 if (typeof c === "string")
                     (this.element as any).innerHTML += c

@@ -8,12 +8,12 @@ import On, { IOn } from "./properties/on"
 import Text, { IText } from "./properties/text"
 import Root from "./properties/_root"
 
-interface IZeyo<T extends keyof HTMLElementTagNameMap> extends IAddClass, IAttribute, IChildren, IClick, IHTML, IObject, IOn, IText {
+export interface IZeyo<T extends keyof HTMLElementTagNameMap> extends IAddClass, IAttribute, IChildren, IClick, IHTML, IObject, IOn, IText {
     element: HTMLElementTagNameMap[T]
     set<R extends HTMLElementTagNameMap[T], A extends keyof R>(property: A, value: R[A]): this
 }
 
-export default <T extends keyof HTMLElementTagNameMap>(tagName: T): IZeyo<T> => new class Zeyo extends Text(On(Object(HTML(Click(Children(Attribute(AddClass(Root<T>)))))))) {
+export default <T extends keyof HTMLElementTagNameMap>(tagName: T): new () => IZeyo<T> => class extends Text(On(Object(HTML(Click(Children(Attribute(AddClass(Root<T>)))))))) {
     constructor() {
         super(tagName)
     }

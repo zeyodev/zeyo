@@ -1,20 +1,24 @@
-import Zeyo from "./zeyo";
+import Zeyo, { IZeyo } from "./zeyo";
 type ZeyoType = ReturnType<typeof Zeyo<keyof HTMLElementTagNameMap>>
 type ZeyoT<T extends keyof HTMLElementTagNameMap> = ReturnType<typeof Zeyo<T>>
-export { ZeyoType as Zeyo, ZeyoT as ZeyoAs }
+export { ZeyoType as Zeyo, IZeyo as ZeyoAs }
 
-export default function Z<T extends keyof HTMLElementTagNameMap>(tagName: T): ReturnType<typeof Zeyo<T>> {
-    return Zeyo(tagName)
+export default function Z<T extends keyof HTMLElementTagNameMap>(tagName: T): IZeyo<T> {
+    return new (Zeyo(tagName))()
 }
 
 function createElement<K extends keyof HTMLElementTagNameMap>(tag: K) {
-    return (...children: Array<ReturnType<typeof Zeyo<keyof HTMLElementTagNameMap>> | string>): ZeyoT<K> => {
-        return Zeyo(tag).children(...children);
+    return (...children: Array<IZeyo<keyof HTMLElementTagNameMap> | string>): IZeyo<K> => {
+        return new (Zeyo(tag))().children(...children);
     };
 }
 
 function createClass<T extends keyof HTMLElementTagNameMap>(tagname: T) {
-    return Zeyo<T>(tagname)
+    return class extends Zeyo(tagname) {
+        constructor() {
+            super()
+        }
+    }
 }
 
 export const a = createElement("a")
