@@ -1,5 +1,5 @@
 import Zeyo, { IZeyo } from "./zeyo";
-type ZeyoType = ReturnType<typeof Zeyo<keyof HTMLElementTagNameMap>>
+type ZeyoType = IZeyo<keyof HTMLElementTagNameMap>
 export { ZeyoType as Zeyo, IZeyo as ZeyoAs }
 
 export default function Z<T extends keyof HTMLElementTagNameMap>(tagName: T): IZeyo<T> {
@@ -7,7 +7,7 @@ export default function Z<T extends keyof HTMLElementTagNameMap>(tagName: T): IZ
 }
 
 function createElement<K extends keyof HTMLElementTagNameMap>(tag: K) {
-    return (...children: Array<IZeyo<keyof HTMLElementTagNameMap> | string>): IZeyo<K> => {
+    return (...children: Array<ZeyoType | string>): IZeyo<K> => {
         return new (Zeyo(tag))().children(...children);
     };
 }
