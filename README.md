@@ -6,6 +6,10 @@ A type-safe, chainable DOM manipulation library for modern web development.
 npm install git+ssh://git@github.com:zeyodev/zeyo.git
 ```
 
+```html
+<script src="http://zeyo.org/framework/zeyo.0.0.1.js"></script>
+```
+
 ## Core Concepts
 
 ### 1. Chainable Element Wrapping
