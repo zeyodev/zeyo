@@ -7,7 +7,7 @@ export interface IAddClass {
 export default function AddClass<T, Base extends ZeyoConstructor<T>>(base: Base) {
     return class extends base {
         class(...tokens: string[]) {
-            (this.element as any).classList.add(...(tokens.filter(t => t !== "")))
+            (this.element as any).classList.add(...(tokens.flatMap(c => c.split(' ')).filter(t => t !== "")))
             return this
         }
     }
