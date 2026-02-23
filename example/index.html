@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeyo Kanban App</title>
+    <!-- Tailwind CSS for rapid, beautiful styling using Zeyo's .class() method -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Zeyo Framework -->
+    <script src="https://zeyo.org/framework/zeyo.0.0.2.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-start justify-center p-4 pt-12">
+
+    <!-- The root container widened to accommodate the Kanban board -->
+    <div id="app" class="w-full max-w-5xl"></div>
+
+    <script>
+        // Destructure the necessary components, adding h2 for column titles
+        const { div, h1, h2, p, input, button, ul, li, span } = Zeyo;
+
+        // =====================================================================
+        // KANBAN APP IMPLEMENTATION
+        // =====================================================================
+
+        function createKanbanApp() {
+            // --- UI Setup: Header & Inputs ---
+            const header = h1()
+                .text("Zeyo Kanban")
+                .class("text-4xl", "font-extrabold", "text-gray-900", "mb-8", "text-center");
+
+            const taskInput = input()
+                .attribute("type", "text")
+                .attribute("placeholder", "What needs to be done?")
+                .class(
+                    "flex-1", "px-4", "py-3", "border", "border-gray-300", "rounded-l-lg",
+                    "focus:outline-none", "focus:ring-2", "focus:ring-indigo-500", "transition-shadow"
+                );
+
+            const addBtn = button()
+                .text("Add Task")
+                .class(
+                    "px-6", "py-3", "bg-indigo-600", "text-white", "font-semibold",
+                    "rounded-r-lg", "hover:bg-indigo-700", "transition-colors", "shadow-md", "shrink-0"
+                );
+
+            const inputGroup = div()
+                .class("flex", "w-full", "max-w-xl", "mx-auto", "mb-10", "shadow-sm", "rounded-lg")
+                .children(taskInput, addBtn);
+
+            // --- Board Setup: Columns ---
+            const todoList = ul().class("space-y-3", "min-h-[200px]");
+            const inProgressList = ul().class("space-y-3", "min-h-[200px]");
+            const doneList = ul().class("space-y-3", "min-h-[200px]");
+
+            // Helper to create visually distinct columns
+            const createColumn = (title, listElement, titleColor) => {
+                return div().class("flex-1", "min-w-[280px]", "bg-gray-50", "rounded-xl", "p-4", "border", "border-gray-200", "shadow-sm").children(
+                    h2().text(title).class("font-bold", "text-lg", "mb-4", "pb-2", "border-b", "border-gray-200", titleColor),
+                    listElement
+                );
+            };
+
+            const board = div().class("flex", "flex-col", "md:flex-row", "gap-6", "w-full").children(
+                createColumn("To Do", todoList, "text-blue-600"),
+                createColumn("In Progress", inProgressList, "text-yellow-600"),
+                createColumn("Done", doneList, "text-green-600")
+            );
+
+            // --- Reusable Component via .object() ---
+            const createTaskItem = (text, initialStatus) => {
+                return li().object(z => {
+                    const textSpan = span().text(text).class("text-gray-800", "font-medium", "flex-1", "break-all", "pr-2");
+
+                    // Move Buttons
+                    const btnBaseClass = ["px-2", "py-1", "text-sm", "font-medium", "text-gray-500", "hover:bg-gray-200", "rounded", "transition-colors"];
+                    const prevBtn = button().text("←").class(...btnBaseClass);
+                    const nextBtn = button().text("→").class(...btnBaseClass);
+                    
+                    const deleteBtn = button().text("×")
+                        .class("px-2", "py-1", "text-lg", "font-bold", "text-red-500", "hover:bg-red-100", "rounded", "transition-colors", "ml-1")
+                        .click(() => z.element.remove());
+
+                    const controlsGroup = div().class("flex", "items-center", "shrink-0").children(prevBtn, nextBtn, deleteBtn);
+
+                    z.class(
+                        "flex", "justify-between", "items-center", "p-3", "bg-white",
+                        "rounded-lg", "border", "border-gray-200", "shadow-sm"
+                    ).children(textSpan, controlsGroup);
+
+                    // Component State
+                    z.status = initialStatus;
+
+                    // Method to update visually and physically move the element
+                    const updateState = (newStatus) => {
+                        z.status = newStatus;
+                        
+                        // Physically move the DOM element using native access
+                        if (newStatus === 'todo') todoList.element.appendChild(z.element);
+                        else if (newStatus === 'in-progress') inProgressList.element.appendChild(z.element);
+                        else if (newStatus === 'done') doneList.element.appendChild(z.element);
+
+                        // Visually update buttons and text based on status
+                        if (newStatus === 'todo') {
+                            prevBtn.element.classList.add('hidden');
+                            nextBtn.element.classList.remove('hidden');
+                            textSpan.element.classList.remove('line-through', 'text-gray-400');
+                        } else if (newStatus === 'in-progress') {
+                            prevBtn.element.classList.remove('hidden');
+                            nextBtn.element.classList.remove('hidden');
+                            textSpan.element.classList.remove('line-through', 'text-gray-400');
+                        } else if (newStatus === 'done') {
+                            prevBtn.element.classList.remove('hidden');
+                            nextBtn.element.classList.add('hidden');
+                            textSpan.element.classList.add('line-through', 'text-gray-400');
+                        }
+                    };
+
+                    // Initialize
+                    updateState(initialStatus);
+
+                    // Button Handlers
+                    prevBtn.click(() => {
+                        if (z.status === 'in-progress') updateState('todo');
+                        else if (z.status === 'done') updateState('in-progress');
+                    });
+
+                    nextBtn.click(() => {
+                        if (z.status === 'todo') updateState('in-progress');
+                        else if (z.status === 'in-progress') updateState('done');
+                    });
+                });
+            };
+
+            // --- Handlers ---
+            const addTask = () => {
+                const text = taskInput.element.value.trim();
+                if (!text) return;
+
+                // Create and add task (it automatically appends itself inside updateState)
+                createTaskItem(text, 'todo');
+
+                // Clear and re-focus input directly using native element properties
+                taskInput.element.value = "";
+                taskInput.element.focus();
+            };
+
+            addBtn.click(addTask);
+            taskInput.on("keypress", (e) => {
+                if (e.key === "Enter") addTask();
+            });
+
+            // --- Root Component Assembly ---
+            return div()
+                .class("w-full", "bg-white", "p-6", "md:p-8", "rounded-2xl", "shadow-xl", "border", "border-gray-100")
+                .children(header, inputGroup, board);
+        }
+
+        // Mount the application to the native DOM
+        const appComponent = createKanbanApp();
+        document.getElementById("app").appendChild(appComponent.element);
+    </script>
+</body>
+</html>
