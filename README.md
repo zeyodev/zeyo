@@ -67,7 +67,7 @@ const card = div()
 | Method | Description | Example |
 |--------|-------------|---------|
 | `.text()` | Set text content | `div().text("Hello")` |
-| `.html()` | Set HTML content | `div().html("<b>Bold</b> text")` |
+| `.HTML()` | Set HTML content | `div().HTML("<b>Bold</b> text")` |
 | `.class()` | Add CSS classes | `div().class("menu", "dark-mode")` |
 | `.attribute()` | Set HTML attributes | `input().attribute("placeholder", "Enter name")` |
 | `.children()` | Append child elements | `ul().children(li(), li())` |
