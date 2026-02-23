@@ -7,7 +7,7 @@ npm install git+ssh://git@github.com:zeyodev/zeyo.git
 ```
 
 ```html
-<script src="http://zeyo.org/framework/zeyo.0.0.1.js"></script>
+<script src="https://zeyo.org/framework/zeyo.0.0.1.js"></script>
 ```
 
 ## Core Concepts
