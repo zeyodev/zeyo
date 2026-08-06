@@ -2,12 +2,15 @@
   "name": "zeyo",
   "version": "1.0.0",
   "description": "Zeyo frontend Framework",
-  "main": "lib/index.js",
-  "types": "src/index.ts",
+  "type": "module",
+  "main": "src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs",
+    "./zeyo": "./src/zeyo.mjs"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc",
-    "build-web": "npx esbuild lib/index.js --bundle --minify --outfile=web/zeyo.min.js --format=iife --global-name=Zeyo"
+    "build-web": "npx esbuild src/index.mjs --bundle --minify --outfile=web/zeyo.min.js --format=iife --global-name=Zeyo"
   },
   "repository": {
     "type": "git",
@@ -19,9 +22,6 @@
     "url": "https://github.com/zeyodev/zeyo/issues"
   },
   "homepage": "https://github.com/zeyodev/zeyo#readme",
-  "devDependencies": {
-    "typescript": "^4.9.5"
-  },
   "dependencies": {
     "esbuild": "0.27.3"
   }

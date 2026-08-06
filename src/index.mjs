@@ -1,18 +1,16 @@
-import Zeyo, { IZeyo } from "./zeyo";
-type ZeyoType = IZeyo<keyof HTMLElementTagNameMap>
-export { ZeyoType as Zeyo, IZeyo as ZeyoAs }
+import Zeyo from "./zeyo.mjs"
 
-export default function Z<T extends keyof HTMLElementTagNameMap>(tagName: T): IZeyo<T> {
+export default function Z(tagName) {
     return new (Zeyo(tagName))()
 }
 
-function createElement<K extends keyof HTMLElementTagNameMap>(tag: K) {
-    return (...children: Array<ZeyoType | string>): IZeyo<K> => {
-        return new (Zeyo(tag))().children(...children);
-    };
+function createElement(tag) {
+    return (...children) => {
+        return new (Zeyo(tag))().children(...children)
+    }
 }
 
-function createClass<T extends keyof HTMLElementTagNameMap>(tagname: T) {
+function createClass(tagname) {
     return class extends Zeyo(tagname) {
         constructor() {
             super()
@@ -103,7 +101,6 @@ export const ruby = createElement("ruby")
 export const s = createElement("s")
 export const samp = createElement("samp")
 export const script = createElement("script")
-//export const search = createElement("search")
 export const section = createElement("section")
 export const select = createElement("select")
 export const slot = createElement("slot")
@@ -216,7 +213,6 @@ export const Ruby = createClass("ruby")
 export const S = createClass("s")
 export const Samp = createClass("samp")
 export const Script = createClass("script")
-//export const Search = createClass("search")
 export const Section = createClass("section")
 export const Select = createClass("select")
 export const Slot = createClass("slot")
